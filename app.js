@@ -4,27 +4,30 @@ const express = require("express");
 const app = express();
 const port = 3000;
 
+// register view engine
+app.set("view engine", "ejs");
+
 app.listen(port, () => {
   console.log("Listening for requests on port " + port);
 });
 
 app.get("/", (req, res) => {
-  res.sendFile("./views/home.html", { root: __dirname });
+  res.render("index", { title: "Home" });
 });
 
 app.get("/about", (req, res) => {
-  res.sendFile("./views/about.html", { root: __dirname });
-});
-
-app.get("/about-us", (req, res) => {
-  res.redirect("/about");
+  res.render("about", { title: "About" });
 });
 
 app.get("/blogs", (req, res) => {
-  res.sendFile("./views/blogs.html", { root: __dirname });
+  res.render("blogs", { title: "Blogs" });
+});
+
+app.get("/blogs/create", (req, res) => {
+  res.render("create", { title: "Create a new blog" });
 });
 
 // when none of those above matched, send 404 html page.
 app.use((req, res) => {
-  res.status(404).sendFile("./views/404.html", { root: __dirname });
+  res.status(404).render("404");
 });
